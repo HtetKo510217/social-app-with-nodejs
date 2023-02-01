@@ -49,4 +49,21 @@ User.prototype.register = function() {
     }
 }
 
+User.prototype.login = function () {
+   return new Promise((resolve,reject)=> {
+        this.cleanUp()
+        userCollection.findOne({username:this.data.username})
+        .then((loginUser)=> {
+            if(loginUser && loginUser.password == this.data.password) {
+                resolve("Congrats !!!")
+            }else {
+                reject("Invalid username / password")
+            }
+        })
+        .catch(()=> {
+            reject("Please try again later.")
+        })
+    })
+}
+
 module.exports = User;

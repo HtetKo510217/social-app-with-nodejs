@@ -13,3 +13,12 @@ exports.register = (req,res)=> {
         res.send('Congrats, there are no errors')
     }
 }
+
+exports.login = (req,res) => {
+    let user = new User(req.body)
+    user.login().then((result)=> {
+        res.send(result)
+    }).catch((err)=> {
+        res.send(err)
+    })
+}
