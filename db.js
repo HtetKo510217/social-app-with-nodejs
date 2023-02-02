@@ -6,7 +6,7 @@ MongoClient.connect(process.env.CONNECTIONSTRING, { useNewUrlParser: true, useUn
     if (err) {
         return console.log("Connection failed for some reason");
       }
-    module.exports = client.db()
+    module.exports = client
     const app = require('./app')
    
     app.listen(process.env.PORT,()=> {
