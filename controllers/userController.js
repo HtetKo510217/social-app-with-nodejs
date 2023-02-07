@@ -14,17 +14,23 @@ exports.login = (req,res) => {
     let user = new User(req.body)
     user.login().then((result)=> {
         req.session.user = {username : user.data.username}
-        res.send(result)
+        req.session.save(()=> res.redirect('/'))
     }).catch((err)=> {
-        res.send(err)
+        req.flash('errors',err)
+        req.session.save(()=> {
+            res.redirect('/')
+        })
     })
 }
 
+exports.logout = (req,res) => {
+    req.session.destroy(()=> res.redirect('/'));
+}
 
 exports.home = (req,res)=> {
     if(req.session.user) {
         res.render('home-dashboard',{username: req.session.user.username})
     }else {
-        res.render('home-guest')
+        res.render('home-guest',{errors : req.flash('errors')})
     }
 }
